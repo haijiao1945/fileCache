@@ -14,7 +14,7 @@ type Driver struct {
 
 func (driver Driver) Read(key string) (string, error) {
 	key = driver.cleanKey(key)
-	path := config.SavePath + key + config.extName
+	path := config.SavePath + key + config.ExtName
 	epath := path + "t"
 	stat, err := os.Stat(epath)
 	if err == nil {
@@ -38,7 +38,7 @@ func (driver Driver) Read(key string) (string, error) {
 
 func (driver Driver) Write(key string, value string, expire int) (bool, error) {
 	key = driver.cleanKey(key)
-	path := config.SavePath + key + config.extName
+	path := config.SavePath + key + config.ExtName
 	epath := path + "t"
 	ishave, _ := driver.pathExist(path)
 	if !ishave {

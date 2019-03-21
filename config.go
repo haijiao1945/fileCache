@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	SavePath string
-	extName  string
+	ExtName  string
 }
 
 var config Config
@@ -21,9 +21,9 @@ func (c Config) Init(configPath string) {
 
 	if err != nil {
 		config.SavePath = "/tmp/"
-		config.extName = ".gofc"
+		config.ExtName = ".gofc"
 	} else {
 		config.SavePath = string(_config.SavePath)
-		config.extName = string(_config.extName)
+		config.ExtName = string(_config.ExtName)
 	}
 }

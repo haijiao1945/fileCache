@@ -15,9 +15,10 @@ type Driver struct {
 func (driver Driver) Read(key string) (string, error) {
 	key = driver.cleanKey(key)
 	path := config.SavePath + key + config.extName
-	stat, err := os.Stat(path + "t")
+	epath := path + "t"
+	stat, err := os.Stat(epath)
 	if err == nil {
-		expire, _ := ioutil.ReadFile(path + "t")
+		expire, _ := ioutil.ReadFile(epath)
 		oldtime := stat.ModTime().Unix()
 		nowtime := time.Now().Unix()
 		_sexpire := string(expire)
@@ -25,7 +26,7 @@ func (driver Driver) Read(key string) (string, error) {
 		_i64expire := int64(_expire)
 		if (nowtime - _i64expire) > oldtime {
 			os.Remove(path)
-			os.Remove(path + "t")
+			os.Remove(epath)
 			return "", nil
 		}
 	}
@@ -38,6 +39,7 @@ func (driver Driver) Read(key string) (string, error) {
 func (driver Driver) Write(key string, value string, expire int) (bool, error) {
 	key = driver.cleanKey(key)
 	path := config.SavePath + key + config.extName
+	epath := path + "t"
 	ishave, _ := driver.pathExist(path)
 	if !ishave {
 		file, _ := os.Create(path)
@@ -46,7 +48,7 @@ func (driver Driver) Write(key string, value string, expire int) (bool, error) {
 	err := ioutil.WriteFile(path, []byte(value), 0644)
 	if expire > 0 {
 		_expire := strconv.Itoa(expire)
-		ioutil.WriteFile(path+"t", []byte(_expire), 0644)
+		ioutil.WriteFile(epath, []byte(_expire), 0644)
 	}
 	res := true
 	if err != nil {

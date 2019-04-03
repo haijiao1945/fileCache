@@ -57,6 +57,10 @@ func (driver Driver) Write(key string, value string, expire int) (bool, error) {
 	return res, err
 }
 
+func (driver Driver) GetKey(key string) string {
+	return driver.cleanKey(key)
+}
+
 func (driver Driver) cleanKey(key string) string {
 	m := md5.New()
 	m.Write([]byte(key))

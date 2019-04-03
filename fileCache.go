@@ -24,3 +24,7 @@ func (c Cache) Set(key string, value string) (bool, error) {
 func (c Cache) SetEx(key string, value string, expire int) (bool, error) {
 	return c.driver.Write(key, value, expire)
 }
+
+func (c Cache) GetKey(key string) string {
+	return c.driver.GetKey(key)
+}
